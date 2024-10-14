@@ -19,8 +19,8 @@ A simple banking system built with Django that allows users to perform transacti
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/repositoryname.git
-   cd repositoryname
+   git clone https://github.com/rdfalmeida/banking-system-simple-python-django.git
+   cd banking-system-simple-python-django
    ```
 
 2. **Create a virtual environment:**
@@ -77,4 +77,4 @@ Contributions are welcome! If you have suggestions for improvements or features,
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
