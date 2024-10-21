@@ -1,80 +1,89 @@
-# Banking System
+# Simple Banking System - Django
 
-A simple banking system built with Django that allows users to perform transactions such as deposits, withdrawals, and view their transaction history. The system implements basic banking operations and ensures user input is validated.
+This project is a simple banking system built using Django. Users can sign up, log in, deposit, withdraw, and view their transaction history. It also includes a daily transaction limit and real-time balance updates.
 
 ## Features
 
-- Deposit funds
-- Withdraw funds (up to R$ 500, with a limit of 3 withdrawals per day)
-- View transaction history
-- Balance display
+- **User Registration**: New users can create an account and log in.
+- **User Authentication**: Login and logout functionality.
+- **Deposits & Withdrawals**: Users can deposit and withdraw money, with limits on daily transactions.
+- **Real-time Balance Updates**: The user's balance updates in real time after each transaction.
+- **Transaction Limits**: A maximum of 10 transactions per day.
+- **Error Handling**: Prevents negative or zero deposits/withdrawals and insufficient balance for withdrawals.
+  
+## Setup Instructions
 
-## Requirements
+### Requirements
 
-- Python 3.x
-- Django 3.x (or higher)
+- Python 3.8+
+- Django 4.x
+- SQLite (default database)
 
-## Installation
+### Step-by-Step Setup
 
-1. **Clone the repository:**
+1. **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    cd banking-system
+    ```
 
-   ```bash
-   git clone https://github.com/rdfalmeida/banking-system-simple-python-django.git
-   cd banking-system-simple-python-django
-   ```
+2. **Create a virtual environment**:
+    ```bash
+    python -m venv venv
+    ```
 
-2. **Create a virtual environment:**
+3. **Activate the virtual environment**:
 
-   ```bash
-   python -m venv venv
-   ```
+    - On Windows:
+      ```bash
+      venv\Scripts\activate
+      ```
+    - On macOS/Linux:
+      ```bash
+      source venv/bin/activate
+      ```
 
-3. **Activate the virtual environment:**
+4. **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-   - On Windows:
+5. **Apply migrations**:
+    ```bash
+    python manage.py migrate
+    ```
 
-     ```bash
-     venv\Scripts\activate
-     ```
+6. **Run the development server**:
+    ```bash
+    python manage.py runserver
+    ```
 
-   - On macOS/Linux:
+7. Open your browser and go to `http://127.0.0.1:8000/` to access the application.
 
-     ```bash
-     source venv/bin/activate
-     ```
+### Running Tests
 
-4. **Install the required packages:**
+To run the tests for user registration, login, and logout:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+python manage.py test
+```
+8.Usage
+User Registration
+Access the signup page via /accounts/signup/.
+After registration, you will be redirected to the login page.
+User Login
+Access the login page via /accounts/login/.
+Deposits & Withdrawals
+Once logged in, you can view your current balance and transaction history on the home page.
+Use the deposit and withdraw forms to perform transactions. These are restricted to:
+Maximum of 10 transactions per day.
+Only positive values allowed for deposits and withdrawals.
+Logout
+Log out via /accounts/logout/.
 
-5. **Run migrations:**
+9. Contributing
+Feel free to fork the project, open issues, and make pull requests.
 
-   ```bash
-   python manage.py migrate
-   ```
-
-6. **Run the server:**
-
-   ```bash
-   python manage.py runserver
-   ```
-
-7. **Access the application:**
-
-   Open your web browser and navigate to `http://127.0.0.1:8000/`.
-
-## Usage
-
-- To perform a deposit, enter the amount and click "Deposit".
-- To withdraw funds, enter the amount (up to R$ 500, limited to 3 withdrawals per day) and click "Withdraw".
-- The balance will update automatically, and you can view your transaction history below.
-
-## Contributing
-
-Contributions are welcome! If you have suggestions for improvements or features, feel free to open an issue or submit a pull request.
-
-## License
-
+10. License
 This project is licensed under the MIT License.
+This version includes your updated specifications and eliminates withdrawal restrictions except for the 10 transactions per day.
