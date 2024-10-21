@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Digital Bank</title>
+</head>
+<body>
+    <script>
+        function updateBalance() {
+            fetch("{% url 'get_balance' %}")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('balance').innerHTML = data.balance;
+            });
+        }
+    
+        function submitTransaction(event, type) {
+            event.preventDefault();
+            const amount = document.getElementById(type + '-amount').value;
+            const url = type === 'deposit' ? "{% url 'deposit' %}" : "{% url 'withdraw' %}";
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'amount': amount })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('error-message').innerHTML = data.error;
+                } else if (data.success) {
+                    document.getElementById('success-message').innerHTML = data.success;
+                    updateBalance();  // Update balance in real-time
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBalance();  // Fetch and display balance on page load
+    
+            document.getElementById('deposit-form').addEventListener('submit', function(event) {
+                submitTransaction(event, 'deposit');
+            });
+    
+            document.getElementById('withdraw-form').addEventListener('submit', function(event) {
+                submitTransaction(event, 'withdraw');
+            });
+        });
+    </script>
+    
+    <div>
+        Current Balance: <span id="balance">{{ user_profile.balance }}</span>
+    </div>
+    <h1>Welcome, {{ request.user.username }}!</h1>
+    <h2>Your Balance: <span id="balance">{{ user_profile.balance }}</span></h2>
+    <form method="POST" action="{% url 'deposit' %}">
+        {% csrf_token %}
+        <input type="number" name="amount" step="0.01" min="0.01" placeholder="Deposit Amount" required>
+        <button type="submit">Deposit</button>
+    </form>
+    <form method="POST" action="{% url 'withdraw' %}">
+        {% csrf_token %}
+        <input type="number" name="amount" step="0.01" min="0.01" placeholder="Withdraw Amount" required>
+        <button type="submit">Withdraw</button>
+    </form>
+    <h2>Transaction Statement:</h2>
+    <ul>
+        {% for transaction in transactions %}
+            <li>{{ transaction.timestamp }} - {{ transaction.transaction_type }}: R$ {{ transaction.amount }}</li>
+        {% endfor %}
+    </ul>    
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>

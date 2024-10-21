@@ -1,0 +1,86 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Django specific
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+db.sqlite3
+*.sqlite3-journal
+
+# If you are using PostgreSQL
+*.pgdata
+
+# Local development environment
+.env
+.local
+.vscode/
+.idea/
+*.swp
+
+# media and static files (if you're not versioning them)
+media/
+staticfiles/
+
+# VSCode project settings
+.vscode/
+
+# JetBrains project settings
+.idea/
+
+# macOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+
+# Virtual environments
+venv/
+ENV/
+env/
+venv.bak/
+venv/Lib/
+venv/Scripts/
+
+# Pipenv
+Pipfile
+Pipfile.lock
+
+# Docker
+*.dockerfile
+*.env
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Pytest
+.pytest_cache/
+
+# Testing
+.tox/
+.cache/
+*.bak
+
+# MySQL dump files
+*.sql
+
+# Ignore any compiled JS and CSS (for front-end frameworks, if any)
+node_modules/
+npm-debug.log
+yarn-error.log
