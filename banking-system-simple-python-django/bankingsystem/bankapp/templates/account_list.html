@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account List</title>
+</head>
+<body>
+    <h1>List of Bank Accounts</h1>
+
+    <!-- Search and filter form -->
+    <form method="GET" action="{% url 'account_list' %}">
+        <label for="query">Search by CPF, CNPJ, or Account Number:</label>
+        <input type="text" name="q" id="query" value="{{ query }}">
+        
+        <label for="type">Filter by Account Type:</label>
+        <select name="type" id="type">
+            <option value="">All</option>
+            <option value="person" {% if account_type_filter == 'person' %}selected{% endif %}>Person</option>
+            <option value="legal_entity" {% if account_type_filter == 'legal_entity' %}selected{% endif %}>Legal Entity</option>
+        </select>
+
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    <!-- Display the accounts list -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Account Number</th>
+                <th>Agency</th>
+                <th>User Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+                <tr>
+                    <td>{{ account.user.name }}</td>
+                    <td>{{ account.number }}</td>
+                    <td>{{ account.agency }}</td>
+                    <td>{{ account.user.get_user_type_display }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No accounts found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="{% url 'login' %}">Back to Login</a>
+</body>
+</html>

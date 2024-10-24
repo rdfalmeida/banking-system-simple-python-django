@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Users - Digital Bank</title>
+</head>
+<body>
+    <h1>List of Registered Users</h1>
+
+    <h2>Person Users</h2>
+    <ul id="person-list">
+        {% for person in persons %}
+            <li>CPF: {{ person.cpf }} - Name: {{ person.name }}</li>
+        {% empty %}
+            <li>No person users found.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Legal Entity Users</h2>
+    <ul id="legal-entity-list">
+        {% for entity in legal_entities %}
+            <li>CNPJ: {{ entity.cnpj }} - Name: {{ entity.name }}</li>
+        {% empty %}
+            <li>No legal entity users found.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'login' %}">Back to Login</a>
+</body>
+</html>

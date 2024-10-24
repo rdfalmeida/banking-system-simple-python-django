@@ -5,19 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script>
+        // Function to validate the input as digits only
+        function validateInput(input) {
+            const value = input.value;
+            // Remove any non-digit characters
+            const numericValue = value.replace(/\D/g, '');
+            input.value = numericValue;
+        }
+    </script>
 </head>
 <body>
     <h1>Login</h1>
     <form method="post">
         {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
+        
+        <label for="cpf_cnpj">CPF or CNPJ:</label>
+        <input type="text" name="username" id="cpf_cnpj" required oninput="validateInput(this)">
         <br>
+
         <label for="password">Password:</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password" id="password" required>
         <br>
+
         <button type="submit">Login</button>
     </form>
-    <p>Don't have an account? <a href="/accounts/signup/">Sign up</a></p>
+    
+    <p>Not registered? <a href="{% url 'signup' %}">Sign Up</a></p>
+    <br>
+    <p>Doesn't have a bank account? <a href="{% url 'create_account' %}">Create Bank Account *Must have a profile*</a></p>
+    <br>
+    <a href="{% url 'users_list' %}">View Registered Users</a> <!-- New link to the users listing page -->
+    <br>
+    <p><a href="{% url 'account_list' %}">View Accounts</a></p>
 </body>
 </html>

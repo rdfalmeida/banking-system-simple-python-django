@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Person</title>
+    <style>
+        .alert {
+            padding: 10px;
+            margin: 15px 0;
+            background-color: #dff0d8; /* Green background */
+            color: #3c763d; /* Dark green text */
+            border: 1px solid #d6e9c6; /* Border color */
+            border-radius: 4px;
+            display: none; /* Hidden by default */
+        }
+        .error {
+            background-color: #f2dede; /* Red background for errors */
+            color: #a94442; /* Dark red text */
+            border: 1px solid #ebccd1; /* Border color for errors */
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sign Up as Person</h1>
+    
+    <form id="signup-form" method="POST">
+        {% csrf_token %}
+        <div id="success-message" class="alert"></div>
+        <div class="error" id="error-message" style="display: none;"></div>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="birthdate">Birthdate (dd-mm-yyyy):</label>
+        <input type="text" id="birthdate" name="birthdate" required pattern="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}" placeholder="dd-mm-yyyy"><br>
+        <small>Format: dd-mm-yyyy</small><br><br>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" required pattern="\d{11}"><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required><br><br>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#signup-form').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "signup_person" %}', // URL for the signup view
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#success-message').text(response.message).show();
+                        $('#error-message').hide(); // Hide error message if present
+                        $('#signup-form')[0].reset(); // Reset the form fields
+                    },
+                    error: function(xhr) {
+                        $('#success-message').hide(); // Hide success message if present
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = "Please fix the following errors:<br>";
+                        for (let key in errors) {
+                            errorMessage += errors[key].join(", ") + "<br>";
+                        }
+                        $('#error-message').html(errorMessage).show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

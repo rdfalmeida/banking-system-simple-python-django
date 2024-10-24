@@ -4,13 +4,15 @@ This project is a simple banking system built using Django. Users can sign up, l
 
 ## Features
 
-- **User Registration**: New users can create an account and log in.
+- **User Registration**: New users can create an account (as a Person or Legal Entity) and log in using CPF or CNPJ as the username.
 - **User Authentication**: Login and logout functionality.
-- **Deposits & Withdrawals**: Users can deposit and withdraw money, with limits on daily transactions.
+- **Bank Account Creation**: Users can create one or more bank accounts associated with their profile.
+- **Deposits & Withdrawals**: Users can deposit and withdraw money, with a maximum of 10 transactions per day.
 - **Real-time Balance Updates**: The user's balance updates in real time after each transaction.
-- **Transaction Limits**: A maximum of 10 transactions per day.
+- **Searchable Account List**: Filter accounts by CPF, CNPJ, or account number.
+- **Transaction Limits**: A maximum of 10 transactions (deposits or withdrawals) per day, with additional withdrawal-specific rules removed.
 - **Error Handling**: Prevents negative or zero deposits/withdrawals and insufficient balance for withdrawals.
-  
+
 ## Setup Instructions
 
 ### Requirements
@@ -67,17 +69,25 @@ To run the tests for user registration, login, and logout:
 ```bash
 python manage.py test
 ```
-8.Usage
+
+8. Usage
+
+User Login
+Access the login page via /accounts/login/.
 User Registration
 Access the signup page via /accounts/signup/.
 After registration, you will be redirected to the login page.
-User Login
-Access the login page via /accounts/login/.
+Bank Account Creation
+Create a new bank account via /create_bank_account/.
 Deposits & Withdrawals
 Once logged in, you can view your current balance and transaction history on the home page.
-Use the deposit and withdraw forms to perform transactions. These are restricted to:
+Use the deposit and withdraw forms to perform transactions.
+Restrictions:
 Maximum of 10 transactions per day.
 Only positive values allowed for deposits and withdrawals.
+Account List
+Access the account list via /accounts/.
+Search by CPF, CNPJ, or account number and filter by account type (Person or Legal Entity).
 Logout
 Log out via /accounts/logout/.
 

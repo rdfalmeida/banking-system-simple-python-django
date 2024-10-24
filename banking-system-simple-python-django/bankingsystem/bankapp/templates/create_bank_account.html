@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Bank Account</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Create Bank Account</h1>
+    <form id="accountForm">
+        <label for="user">User (Person or Legal Entity):</label>
+        <select name="user" id="user" required>
+            <!-- Dynamically populate user options -->
+            {% for user in form.user.field.queryset %}
+                <option value="{{ user.id }}">{{ user.name }} ({{ user.cpf|default:user.cnpj }})</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="agency">Agency:</label>
+        <input type="text" name="agency" id="agency" value="0001" readonly><br><br>
+
+        <label for="account_number">Account Number:</label>
+        <input type="text" name="number" id="account_number" placeholder="{{ form.number.field.widget.attrs.placeholder }}" required><br><br>
+
+        <label for="account_type">Account Type:</label>
+        <select name="account_type" id="account_type" required>
+            <option value="person">Person</option>
+            <option value="legal_entity">Legal Entity</option>
+        </select><br><br>
+
+        <button type="submit">Create Account</button>
+    </form>
+	<br>
+	<a href="{% url 'login' %}">Back to Login</a>
+
+    <div id="responseMessage" style="margin-top: 20px;"></div>
+
+    <script>
+        // AJAX form submission
+        $('#accountForm').submit(function(event) {
+            event.preventDefault(); // Prevent full page reload
+            
+            var formData = {
+                user: $('#user').val(),
+                agency: $('#agency').val(),
+                number: $('#account_number').val(),
+                account_type: $('#account_type').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "create_account" %}', // Django URL for account creation
+                data: formData,
+                success: function(response) {
+                    $('#responseMessage').html('<p style="color: green;">' + response.message + '</p>');
+                    window.location.href = '{% url "login" %}'; // Redirect to login page after success
+                },
+                error: function(xhr, status, error) {
+                    $('#responseMessage').html('<p style="color: red;">' + xhr.responseText + '</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
